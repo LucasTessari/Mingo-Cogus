@@ -1,0 +1,41 @@
+* {
+  box-sizing: border-box;
+}
+
+.App {
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+}
+
+main {
+  padding: 20px;
+  min-height: calc(100vh - 80px);
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: var(--bg-primary);
+}
+
+/* Loading states */
+.loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+}
+
+.error {
+  text-align: center;
+  padding: 40px;
+  color: #dc2626;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  margin: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  main {
+    padding: 15px;
+  }
+}

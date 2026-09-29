@@ -1,0 +1,28 @@
+{
+  "note": "CSS original do site (ICO), copiado byte a byte. Não editar: o teste legacy-css falha se o conteúdo mudar.",
+  "files": {
+    "App.css": "d4eaa37edc99546e773d23d124fd4b1c7b32582962b2ed4a882f9f96736ad0f1",
+    "components/auth/Auth.css": "4a02e72f8a3f7f733988c5ab6b997efba4eb16d69405f239cfac58865dae51b0",
+    "components/cart/Cart.css": "c32729f684116c9b2e545020ad63ae250755fd4bca295c48b82de8d8e6bb8558",
+    "components/checkout/Checkout.css": "35316e3dabab72023e1eeb2aad1a3c43dbc7b9fcaae33fc07081598aa7740b98",
+    "components/common/Badge.css": "d1603cebf1ff9f40762836e27536884bab5e6dbfa8e8470cfdf2eab9758006a0",
+    "components/common/DiscountBadge.css": "8d7fccab92167bb3f59bd1a3ba496afbcac1a8ad5336fa5a6f20c737c2532f54",
+    "components/common/Notification.css": "063e0f92f9e6886e22b6cac2f49952c1af190348bdf43d4581a51b5b484ff151",
+    "components/common/Rating.css": "a24eb1b5050d283579fc1cc6fabcac8191994aad17be50dc372ff0af15df117b",
+    "components/layout/CategoryDropdown.css": "2ced16456ac742f2ca761117d53e71ba0a77d0e708addb509d39b2ea7e1df5eb",
+    "components/layout/CategoryMenu.css": "48b5d25953e516da6697aecbd8638737b26c3bc2a19bb51909d839daae253970",
+    "components/layout/Footer.css": "59bdbb42bc5da585eb6664c8d90b16cc07f66c88111246fa7db80182af092717",
+    "components/layout/Header.css": "aaba4a9d19b702ad3f6d6e0847eff3c4aa638b55ed7c30d74a2a4d489a05d539",
+    "components/layout/ProductCarousel.css": "22786dde94ab2c2e94ab90311da7d1061bdc4fb7c2be90f97aaa1affb2aa4f7d",
+    "components/layout/SearchBar.css": "2324b512b33c34561e0229472bd96f7962642dc9858cf026d29b63e21d8f5919",
+    "components/orders/OrderHistory.css": "43306762d7169e73c7cf4606337b515803cb8659e66c1abd940261ce3d0113b6",
+    "components/products/ProductCard.css": "1ccef7229266126b974faa77fea195a8aec0db96f1ded14a70ee60e7aa577e4b",
+    "components/products/ProductFilters.css": "3224f2f9f24fa4841414b3c7afed2b849652329c7e868a8f9ef0b925186ef083",
+    "components/products/ProductList.css": "16fc2d280f7a5c855d59d28bf42f64958ca5bb2e6b4ec88a358481fe33640486",
+    "components/sections/AboutSection.css": "4c379cf12c3d250855ecf83c1585360caedef4fcf03a4764719a1072923578d0",
+    "components/sections/ApparelSection.css": "4070895084980f9f2b250db18f12690498b67572b3e71502318340d058ac26db",
+    "components/sections/CatalogHighlightSection.css": "62e636c36e1ab8ea5ac0071cc701247c41173e990f335c576465732ecdb4a4b6",
+    "components/sections/Section.css": "c29ec8e9565e0afa2a8972fd669968612deee7b022932807ac61d60e69572c15",
+    "pages/Home/HomePage.css": "1675ba16f7c1c44ab75b8c3c5320e35365774ff0b5819203745aa9e6a573f2ed"
+  }
+}

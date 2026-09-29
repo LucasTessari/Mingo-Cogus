@@ -1,0 +1,15 @@
+{
+  "name": "@mingo/visual-baseline",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Captura screenshots de referência do site original (ICO) para os testes de paridade visual",
+  "scripts": {
+    "capture": "tsx capture.ts",
+    "serve": "tsx serve.ts"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "tsx": "^4.23.15"
+  }
+}

@@ -1,0 +1,641 @@
+.product-carousel-container {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+  background: linear-gradient(180deg, #0a0e27 0%, #1a1f3a 50%, #0a0e27 100%);
+  margin-bottom: 0;
+  z-index: 50;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Fundo estrelado animado */
+.carousel-stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(2px 2px at 20% 30%, white, transparent),
+    radial-gradient(2px 2px at 60% 70%, white, transparent),
+    radial-gradient(1px 1px at 50% 50%, white, transparent),
+    radial-gradient(1px 1px at 80% 10%, white, transparent),
+    radial-gradient(2px 2px at 90% 60%, white, transparent),
+    radial-gradient(1px 1px at 33% 80%, white, transparent),
+    radial-gradient(1px 1px at 10% 40%, white, transparent),
+    radial-gradient(2px 2px at 40% 20%, white, transparent),
+    radial-gradient(1px 1px at 70% 90%, white, transparent),
+    radial-gradient(1px 1px at 15% 15%, white, transparent);
+  background-size: 200% 200%;
+  background-position: 0% 0%;
+  animation: starMove 20s linear infinite;
+  opacity: 0.8;
+  z-index: 1;
+}
+
+@keyframes starMove {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+/* Plantas decorativas nas laterais */
+.carousel-plant-left,
+.carousel-plant-right {
+  position: absolute;
+  bottom: 0;
+  width: 200px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+.carousel-plant-left {
+  left: -50px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-moss-green) 20%,
+    var(--color-moss-green-light) 50%,
+    var(--color-moss-green) 80%,
+    transparent 100%
+  );
+  clip-path: polygon(
+    0% 100%,
+    20% 80%,
+    15% 60%,
+    25% 40%,
+    20% 20%,
+    30% 10%,
+    25% 0%,
+    35% 5%,
+    30% 15%,
+    40% 25%,
+    35% 35%,
+    45% 45%,
+    40% 55%,
+    50% 65%,
+    45% 75%,
+    55% 85%,
+    50% 95%,
+    60% 100%,
+    0% 100%
+  );
+  animation: plantSway 4s ease-in-out infinite;
+}
+
+.carousel-plant-right {
+  right: -50px;
+  background: linear-gradient(
+    270deg,
+    transparent 0%,
+    var(--color-moss-green) 20%,
+    var(--color-moss-green-light) 50%,
+    var(--color-moss-green) 80%,
+    transparent 100%
+  );
+  clip-path: polygon(
+    100% 100%,
+    80% 80%,
+    85% 60%,
+    75% 40%,
+    80% 20%,
+    70% 10%,
+    75% 0%,
+    65% 5%,
+    70% 15%,
+    60% 25%,
+    65% 35%,
+    55% 45%,
+    60% 55%,
+    50% 65%,
+    55% 75%,
+    45% 85%,
+    50% 95%,
+    40% 100%,
+    100% 100%
+  );
+  animation: plantSway 4s ease-in-out infinite 0.5s;
+}
+
+@keyframes plantSway {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(2deg);
+  }
+}
+
+.product-carousel-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  padding: 0 50px;
+}
+
+.product-carousel-track {
+  display: flex;
+  gap: 15px;
+  will-change: transform;
+  width: 100%;
+}
+
+.carousel-product-item {
+  flex: 0 0 calc(25% - 12px);
+  min-width: 0;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  position: relative;
+}
+
+.carousel-product-item:hover {
+  transform: translateY(-15px) scale(1.05);
+  z-index: 10;
+}
+
+.carousel-product-image {
+  position: relative;
+  width: 100%;
+  height: 160px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--color-black);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(124, 179, 66, 0.3);
+  transition: all 0.3s ease;
+}
+
+.carousel-product-item:hover .carousel-product-image {
+  border-color: var(--color-moss-green);
+  box-shadow: 0 12px 32px rgba(124, 179, 66, 0.6);
+}
+
+.carousel-product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.carousel-product-item:hover .carousel-product-image img {
+  transform: scale(1.1);
+}
+
+.carousel-sale-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: linear-gradient(135deg, var(--color-purple) 0%, var(--color-purple-dark) 100%);
+  color: var(--color-white);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 12px rgba(107, 70, 193, 0.5);
+  border: 1px solid var(--color-gold);
+  z-index: 5;
+}
+
+.carousel-product-name {
+  margin-top: 10px;
+  text-align: center;
+  color: var(--color-white);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 5px;
+}
+
+/* Setas de navegação */
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(124, 179, 66, 0.8);
+  border: 2px solid var(--color-moss-green);
+  color: var(--color-white);
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.carousel-arrow:hover {
+  background: var(--color-moss-green);
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 6px 20px rgba(124, 179, 66, 0.6);
+}
+
+.carousel-arrow:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.carousel-arrow-left {
+  left: 10px;
+}
+
+.carousel-arrow-right {
+  right: 10px;
+}
+
+.carousel-arrow svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Responsividade */
+@media (max-width: 1400px) {
+  .carousel-product-item {
+    flex: 0 0 calc(25% - 12px);
+  }
+}
+
+@media (max-width: 1200px) {
+  .carousel-product-item {
+    flex: 0 0 calc(33.333% - 10px);
+  }
+  
+  .carousel-plant-left,
+  .carousel-plant-right {
+    width: 150px;
+    opacity: 0.2;
+  }
+
+  .product-carousel-wrapper {
+    padding: 0 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .product-carousel-container {
+    height: 220px;
+  }
+  
+  .carousel-product-item {
+    flex: 0 0 calc(50% - 8px);
+  }
+  
+  .carousel-product-image {
+    height: 140px;
+  }
+  
+  .carousel-plant-left,
+  .carousel-plant-right {
+    display: none;
+  }
+
+  .product-carousel-wrapper {
+    padding: 0 50px;
+  }
+
+  .carousel-arrow {
+    width: 40px;
+    height: 40px;
+  }
+
+  .carousel-arrow-left {
+    left: 5px;
+  }
+
+  .carousel-arrow-right {
+    right: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-carousel-container {
+    height: 200px;
+  }
+  
+  .carousel-product-item {
+    flex: 0 0 calc(50% - 8px);
+  }
+  
+  .carousel-product-image {
+    height: 130px;
+  }
+  
+  .carousel-product-name {
+    font-size: 0.7rem;
+  }
+
+  .product-carousel-wrapper {
+    padding: 0 40px;
+  }
+
+  .carousel-arrow {
+    width: 35px;
+    height: 35px;
+  }
+
+  .carousel-arrow svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* Loading state */
+.carousel-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+}
+
+.carousel-loading-text {
+  color: var(--color-white);
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  letter-spacing: 2px;
+}
+
+/* Esporos flutuantes */
+.spores-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.spore {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(124, 179, 66, 0.6) 50%, transparent 100%);
+  border-radius: 50%;
+  opacity: 0.7;
+  box-shadow: 0 0 6px rgba(124, 179, 66, 0.8);
+}
+
+.spore-0 {
+  animation: sporeFloat1 15s linear infinite;
+  animation-delay: 0s;
+}
+
+.spore-1 {
+  animation: sporeFloat2 18s linear infinite;
+  animation-delay: 2s;
+}
+
+.spore-2 {
+  animation: sporeFloat3 20s linear infinite;
+  animation-delay: 4s;
+}
+
+@keyframes sporeFloat1 {
+  0% {
+    transform: translate(0, 100%) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.7;
+  }
+  90% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate(100vw, -20%) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes sporeFloat2 {
+  0% {
+    transform: translate(100vw, 100%) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.7;
+  }
+  90% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate(-10vw, -20%) rotate(-360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes sporeFloat3 {
+  0% {
+    transform: translate(50vw, 100%) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.7;
+  }
+  90% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate(150vw, -20%) rotate(180deg);
+    opacity: 0;
+  }
+}
+
+/* Cogumelos flutuantes */
+.mushrooms-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.floating-mushroom {
+  position: absolute;
+  width: 20px;
+  height: 30px;
+  bottom: -40px;
+}
+
+.mushroom-cap {
+  width: 20px;
+  height: 12px;
+  background: linear-gradient(135deg, #8B4513 0%, #A0522D 50%, #8B4513 100%);
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.mushroom-cap::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 3px;
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+}
+
+.mushroom-cap::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 3px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+}
+
+.mushroom-stem {
+  width: 6px;
+  height: 18px;
+  background: linear-gradient(180deg, #F5DEB3 0%, #DEB887 50%, #CD853F 100%);
+  margin: 0 auto;
+  border-radius: 0 0 3px 3px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.mushroom-0 {
+  left: 10%;
+  animation: mushroomFloat1 25s linear infinite;
+  animation-delay: 0s;
+}
+
+.mushroom-1 {
+  left: 30%;
+  animation: mushroomFloat2 28s linear infinite;
+  animation-delay: 3s;
+}
+
+.mushroom-2 {
+  left: 50%;
+  animation: mushroomFloat3 30s linear infinite;
+  animation-delay: 6s;
+}
+
+.mushroom-3 {
+  left: 70%;
+  animation: mushroomFloat4 27s linear infinite;
+  animation-delay: 9s;
+}
+
+@keyframes mushroomFloat1 {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  5% {
+    opacity: 0.8;
+  }
+  95% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-120%) translateX(50px) rotate(15deg);
+    opacity: 0;
+  }
+}
+
+@keyframes mushroomFloat2 {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  5% {
+    opacity: 0.8;
+  }
+  95% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-120%) translateX(-60px) rotate(-12deg);
+    opacity: 0;
+  }
+}
+
+@keyframes mushroomFloat3 {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  5% {
+    opacity: 0.8;
+  }
+  95% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-120%) translateX(40px) rotate(10deg);
+    opacity: 0;
+  }
+}
+
+@keyframes mushroomFloat4 {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  5% {
+    opacity: 0.8;
+  }
+  95% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-120%) translateX(-45px) rotate(-8deg);
+    opacity: 0;
+  }
+}
+
+/* Responsividade para animações */
+@media (max-width: 768px) {
+  .spore {
+    width: 3px;
+    height: 3px;
+  }
+  
+  .floating-mushroom {
+    width: 16px;
+    height: 24px;
+  }
+  
+  .mushroom-cap {
+    width: 16px;
+    height: 10px;
+  }
+  
+  .mushroom-stem {
+    width: 5px;
+    height: 14px;
+  }
+}
+

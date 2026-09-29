@@ -1,0 +1,10 @@
+.home-page {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Scroll suave entre seções */
+.home-page section {
+  scroll-margin-top: 80px;
+}
+

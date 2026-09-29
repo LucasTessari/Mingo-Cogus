@@ -1,0 +1,28 @@
+export const ERROR_CODES = [
+  'VALIDATION_ERROR',
+  'INVALID_CREDENTIALS',
+  'UNAUTHENTICATED',
+  'FORBIDDEN',
+  'FORBIDDEN_ORIGIN',
+  'NOT_FOUND',
+  'EMAIL_TAKEN',
+  'SLUG_TAKEN',
+  'CONFLICT',
+  'PRODUCT_UNAVAILABLE',
+  'INSUFFICIENT_STOCK',
+  'PRICE_CHANGED',
+  'IDEMPOTENCY_KEY_REQUIRED',
+  'INVALID_STATUS_TRANSITION',
+  'TRACKING_REQUIRED',
+  'CATEGORY_NOT_EMPTY',
+  'PAYMENT_DECLINED',
+  'RATE_LIMITED',
+  'UNSUPPORTED_MEDIA_TYPE',
+  'INTERNAL_ERROR',
+] as const;
+
+export type ErrorCode = (typeof ERROR_CODES)[number];
+
+export interface ErrorBody {
+  error: { code: ErrorCode; message: string; details?: unknown };
+}

@@ -1,0 +1,237 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Potency {
+  LOW
+  MEDIUM
+  HIGH
+  VERY_HIGH
+}
+
+enum CultivationMethod {
+  SPORE_SYRINGE
+  SPORE_PRINT
+  LIQUID_CULTURE
+  GRAIN_SPAWN
+  GROW_KIT
+}
+
+// Destaque, premiado e promoção são campos do produto, não tags
+enum ProductTag {
+  NEW
+  BEST_SELLER
+  EASY_GROW
+  HIGH_POTENCY
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+enum PaymentMethod {
+  CREDIT_CARD
+  DEBIT_CARD
+  PIX
+}
+
+enum PaymentStatus {
+  PENDING
+  APPROVED
+  DECLINED
+  REFUNDED
+}
+
+model User {
+  id           String             @id @default(uuid()) @db.Uuid
+  email        String             @unique @db.VarChar(254) // sempre em minúsculas
+  name         String             @db.VarChar(80)
+  passwordHash String
+  role         Role               @default(USER)
+  phone        String?            @db.VarChar(20)
+  tokenVersion Int                @default(0) // incrementar derruba todas as sessões
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+  orders       Order[]
+  statusEvents OrderStatusEvent[]
+
+  @@map("users")
+}
+
+model Category {
+  id          String     @id @default(uuid()) @db.Uuid
+  name        String     @db.VarChar(60)
+  slug        String     @unique @db.VarChar(80)
+  description String?    @db.VarChar(500)
+  iconKey     String?    @db.VarChar(40) // chave do ícone SVG na loja
+  imageUrl    String?    @db.VarChar(500)
+  sortOrder   Int        @default(0)
+  isActive    Boolean    @default(true)
+  parentId    String?    @db.Uuid // no máximo 2 níveis (validado na API)
+  parent      Category?  @relation("CategoryTree", fields: [parentId], references: [id], onDelete: Restrict)
+  children    Category[] @relation("CategoryTree")
+  products    Product[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([parentId, sortOrder])
+  @@map("categories")
+}
+
+model Product {
+  id                  String             @id @default(uuid()) @db.Uuid
+  slug                String             @unique @db.VarChar(120)
+  name                String             @db.VarChar(100)
+  description         String             @db.VarChar(2000)
+  priceCents          Int
+  salePriceCents      Int?
+  effectivePriceCents Int // COALESCE(salePriceCents, priceCents), garantido por CHECK
+  stock               Int                @default(0)
+  featured            Boolean            @default(false)
+  awardWinning        Boolean            @default(false)
+  tags                ProductTag[]       @default([])
+  species             String?            @db.VarChar(80)
+  strain              String?            @db.VarChar(80)
+  potency             Potency?
+  cultivationMethod   CultivationMethod?
+  quantityLabel       String?            @db.VarChar(30) // "10ml", "1 unidade"
+  origin              String?            @db.VarChar(60)
+  ratingAvg           Float? // nulo até existir um recurso de avaliações
+  reviewCount         Int                @default(0)
+  searchText          String // nome, descrição, espécie e strain normalizados para busca
+  isActive            Boolean            @default(true)
+  archivedAt          DateTime? // arquivado (soft delete): pedidos antigos mantêm a referência
+  categoryId          String             @db.Uuid
+  category            Category           @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  images              ProductImage[]
+  orderItems          OrderItem[]
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+
+  @@index([categoryId])
+  @@index([isActive, archivedAt, createdAt])
+  @@index([effectivePriceCents])
+  @@map("products")
+}
+
+model ProductImage {
+  id        String  @id @default(uuid()) @db.Uuid
+  productId String  @db.Uuid
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url       String  @db.VarChar(500)
+  alt       String? @db.VarChar(150)
+  position  Int     @default(0) // 0 = capa
+
+  @@unique([productId, position])
+  @@map("product_images")
+}
+
+model Order {
+  id                  String             @id @default(uuid()) @db.Uuid
+  orderNumber         String             @unique @db.VarChar(24) // MC-20260928-000042
+  userId              String             @db.Uuid
+  user                User               @relation(fields: [userId], references: [id], onDelete: Restrict)
+  status              OrderStatus        @default(PENDING)
+  subtotalCents       Int
+  shippingCents       Int                @default(0)
+  discountCents       Int                @default(0)
+  totalCents          Int
+  customerName        String             @db.VarChar(80)
+  customerEmail       String             @db.VarChar(254)
+  customerPhone       String             @db.VarChar(20)
+  shipZipCode         String             @db.Char(8)
+  shipStreet          String             @db.VarChar(120)
+  shipNumber          String             @db.VarChar(20)
+  shipComplement      String?            @db.VarChar(80)
+  shipNeighborhood    String             @db.VarChar(80)
+  shipCity            String             @db.VarChar(80)
+  shipState           String             @db.VarChar(40)
+  shipCountry         String             @default("BR") @db.Char(2)
+  trackingNumber      String?            @db.VarChar(40)
+  estimatedDeliveryAt DateTime?
+  idempotencyKey      String?            @db.VarChar(64)
+  confirmedAt         DateTime?
+  shippedAt           DateTime?
+  deliveredAt         DateTime?
+  cancelledAt         DateTime?
+  items               OrderItem[]
+  payments            Payment[]
+  events              OrderStatusEvent[]
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+
+  @@unique([userId, idempotencyKey])
+  @@index([userId, createdAt(sort: Desc)])
+  @@index([status, createdAt])
+  @@map("orders")
+}
+
+// Cópia dos dados do produto no momento da compra
+model OrderItem {
+  id             String  @id @default(uuid()) @db.Uuid
+  orderId        String  @db.Uuid
+  order          Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId      String  @db.Uuid
+  product        Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+  productName    String  @db.VarChar(100)
+  productSlug    String  @db.VarChar(120)
+  imageUrl       String? @db.VarChar(500)
+  listPriceCents Int
+  unitPriceCents Int
+  quantity       Int
+  lineTotalCents Int
+
+  @@unique([orderId, productId])
+  @@index([productId])
+  @@map("order_items")
+}
+
+model Payment {
+  id            String        @id @default(uuid()) @db.Uuid
+  orderId       String        @db.Uuid
+  order         Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  provider      String        @db.VarChar(30)
+  method        PaymentMethod
+  status        PaymentStatus @default(PENDING)
+  amountCents   Int
+  installments  Int           @default(1)
+  providerRef   String?       @db.VarChar(100)
+  failureReason String?       @db.VarChar(200)
+  metadata      Json? // dados não sensíveis do provedor (ex.: código Pix). NUNCA dados de cartão.
+  paidAt        DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@unique([provider, providerRef])
+  @@index([orderId])
+  @@map("payments")
+}
+
+model OrderStatusEvent {
+  id         String       @id @default(uuid()) @db.Uuid
+  orderId    String       @db.Uuid
+  order      Order        @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  fromStatus OrderStatus?
+  toStatus   OrderStatus
+  note       String?      @db.VarChar(300)
+  actorId    String?      @db.Uuid // nulo = sistema (resultado do pagamento)
+  actor      User?        @relation(fields: [actorId], references: [id], onDelete: SetNull)
+  createdAt  DateTime     @default(now())
+
+  @@index([orderId, createdAt])
+  @@map("order_status_events")
+}

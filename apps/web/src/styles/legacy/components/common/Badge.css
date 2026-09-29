@@ -1,0 +1,66 @@
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.badge-premiado {
+  background: linear-gradient(135deg, var(--color-gold), var(--color-gold-light));
+  color: var(--color-black);
+  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.4);
+}
+
+.badge-promocao {
+  background: var(--color-purple);
+  color: var(--color-white);
+  animation: pulse 2s infinite;
+}
+
+.badge-novo {
+  background: var(--color-moss-green);
+  color: var(--color-white);
+}
+
+.badge-destaque {
+  background: var(--color-gold);
+  color: var(--color-black);
+  font-weight: 700;
+}
+
+.badge-mais-vendido {
+  background: var(--color-gray-dark);
+  color: var(--color-white);
+}
+
+.badge-cultivo-facil {
+  background: var(--color-moss-green-light);
+  color: var(--color-white);
+}
+
+.badge-alta-potencia {
+  background: var(--color-purple-dark);
+  color: var(--color-white);
+  font-weight: 700;
+}
+
+.badge-default {
+  background: var(--color-gray-medium);
+  color: var(--color-white);
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    opacity: 1; 
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 0.9; 
+    transform: scale(1.02);
+  }
+}
+
